@@ -498,6 +498,7 @@ export default function App() {
                 setActiveTab("twin");
               }}
               title="Reset Simulator Settings"
+              aria-label="Reset Simulator Settings"
               className="p-1 hover:bg-slate-100 border border-slate-200 bg-white rounded-lg transition-colors text-slate-500 hover:text-slate-900 cursor-pointer h-[26px] w-[26px] flex items-center justify-center"
             >
               <RefreshCw size={13} />
@@ -877,6 +878,7 @@ export default function App() {
                       max="12"
                       value={laserCount}
                       onChange={(e) => setLaserCount(Number(e.target.value))}
+                      aria-label="Laser Projectors Beam Count"
                       className="w-full accent-indigo-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg appearance-none"
                     />
                     <p className="text-[10px] text-slate-500 font-sans leading-normal">
@@ -900,6 +902,7 @@ export default function App() {
                             key={c.id}
                             onClick={() => setLaserColor(c.id)}
                             title={c.name}
+                            aria-label={`Select laser color ${c.name}`}
                             className={`h-6 w-6 rounded-full cursor-pointer border-2 transition-all ${c.color} ${
                               laserColor === c.id ? "scale-125 shadow-md border-slate-900" : "opacity-60 hover:opacity-100"
                             }`}
@@ -1175,6 +1178,7 @@ export default function App() {
                     step="15"
                     value={futureTimeOffset}
                     onChange={handleFutureSliderChange}
+                    aria-label="Future Vision time offset in minutes"
                     className="w-full accent-pink-600 h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer"
                   />
                   <span className="text-[10px] font-mono text-slate-400 font-bold">+1 HOUR</span>

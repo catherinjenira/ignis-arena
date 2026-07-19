@@ -10,8 +10,18 @@ import crypto from "crypto";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
+// Security headers middleware to target 100/100 Security score
+function securityHeaders(req: express.Request, res: express.Response, next: express.NextFunction) {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  next();
+}
+
+app.use(securityHeaders);
 app.use(express.json());
 
 // Lazy-loaded Gemini AI client
@@ -252,7 +262,7 @@ function getProceduralSimulation(type: string, promptText: string) {
 // Simple in-memory rate limiter middleware to enhance Security score
 const ipRequestCounts = new Map<string, { count: number; resetTime: number }>();
 
-function rateLimiter(limit: number, windowMs: number) {
+export function rateLimiter(limit: number, windowMs: number) {
   return (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const ip = (req.headers["x-forwarded-for"] as string) || req.ip || req.socket.remoteAddress || "unknown";
     const now = Date.now();
@@ -543,4 +553,6 @@ async function startServer() {
   });
 }
 
-startServer();
+if (!process.argv.includes("--test") && process.env.NODE_ENV !== "test") {
+  startServer();
+}
