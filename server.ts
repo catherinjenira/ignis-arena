@@ -21,8 +21,40 @@ function securityHeaders(req: express.Request, res: express.Response, next: expr
   next();
 }
 
+// Input sanitization middleware to prevent XSS attacks
+function sanitizeInput(val: any): any {
+  if (typeof val === "string") {
+    return val
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#x27;")
+      .replace(/\//g, "&#x2F;");
+  }
+  if (Array.isArray(val)) {
+    return val.map(sanitizeInput);
+  }
+  if (val !== null && typeof val === "object") {
+    const cleanObj: any = {};
+    for (const key of Object.keys(val)) {
+      cleanObj[key] = sanitizeInput(val[key]);
+    }
+    return cleanObj;
+  }
+  return val;
+}
+
+function sanitizeMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
+  if (req.body) {
+    req.body = sanitizeInput(req.body);
+  }
+  next();
+}
+
 app.use(securityHeaders);
 app.use(express.json());
+app.use(sanitizeMiddleware);
 
 // Lazy-loaded Gemini AI client
 let aiClient: GoogleGenAI | null = null;
