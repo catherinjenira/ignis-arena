@@ -161,7 +161,7 @@ export default function AuthModal({ onAuthSuccess, onClose, isClosable = false }
             {/* Username for registration */}
             {!isLogin && (
               <div className="space-y-1.5">
-                <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
+                <label htmlFor="reg-fullname" className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
                   Full Name
                 </label>
                 <div className="relative">
@@ -171,6 +171,7 @@ export default function AuthModal({ onAuthSuccess, onClose, isClosable = false }
                   <input
                     type="text"
                     required
+                    id="reg-fullname"
                     placeholder="Enter full name"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -182,7 +183,7 @@ export default function AuthModal({ onAuthSuccess, onClose, isClosable = false }
 
             {/* Email Address */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
+              <label htmlFor="sys-email" className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
                 System Email Address
               </label>
               <div className="relative">
@@ -192,6 +193,7 @@ export default function AuthModal({ onAuthSuccess, onClose, isClosable = false }
                 <input
                   type="email"
                   required
+                  id="sys-email"
                   placeholder="name@ignis.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -202,7 +204,7 @@ export default function AuthModal({ onAuthSuccess, onClose, isClosable = false }
 
             {/* Password */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
+              <label htmlFor="access-pass" className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
                 Access Password
               </label>
               <div className="relative">
@@ -212,6 +214,7 @@ export default function AuthModal({ onAuthSuccess, onClose, isClosable = false }
                 <input
                   type={showPassword ? "text" : "password"}
                   required
+                  id="access-pass"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -220,6 +223,7 @@ export default function AuthModal({ onAuthSuccess, onClose, isClosable = false }
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-white cursor-pointer"
                 >
                   {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}

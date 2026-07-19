@@ -83,6 +83,7 @@ export default function AICouncilTheater({ dialogues, onFinishSpeak }: AICouncil
           <button
             onClick={() => setIsPlaying(!isPlaying)}
             title={isPlaying ? "Pause Discussion" : "Play Discussion"}
+            aria-label={isPlaying ? "Pause Discussion" : "Play Discussion"}
             className="p-1 hover:bg-slate-200 rounded transition text-slate-600 hover:text-slate-900 cursor-pointer"
           >
             {isPlaying ? <Pause size={13} /> : <Play size={13} />}
@@ -90,6 +91,7 @@ export default function AICouncilTheater({ dialogues, onFinishSpeak }: AICouncil
           <button
             onClick={handleNext}
             title="Next Speaker"
+            aria-label="Next Speaker"
             className="p-1 hover:bg-slate-200 rounded transition text-slate-600 hover:text-slate-900 cursor-pointer"
           >
             <ChevronRight size={13} />
@@ -97,6 +99,7 @@ export default function AICouncilTheater({ dialogues, onFinishSpeak }: AICouncil
           <button
             onClick={handleReset}
             title="Restart Discussion"
+            aria-label="Restart Discussion"
             className="p-1 hover:bg-slate-200 rounded transition text-slate-600 hover:text-slate-900 cursor-pointer"
           >
             <RotateCcw size={13} />
@@ -115,6 +118,7 @@ export default function AICouncilTheater({ dialogues, onFinishSpeak }: AICouncil
                 setCurrentStep(idx);
                 setIsPlaying(false);
               }}
+              aria-label={`Select speaker ${member.name}, role ${member.role}`}
               className={`flex flex-col items-center p-2 rounded-xl transition-all duration-300 border cursor-pointer ${
                 isActive
                   ? "bg-purple-50 border-purple-300 shadow-md shadow-purple-100 scale-105"

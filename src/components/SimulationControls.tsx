@@ -140,11 +140,13 @@ export default function SimulationControls({
             onChange={(e) => setCustomPrompt(e.target.value)}
             disabled={isLoading}
             placeholder='Ask Ignis Arena anything, e.g., "What if power fails at halftime?" or "Host Champions League with green power..."'
+            aria-label="Custom Simulation Command Prompt"
             className="w-full bg-slate-950/90 border border-slate-800 focus:border-cyan-500/60 rounded-xl px-4 py-3.5 pr-12 text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-all duration-200 shadow-inner font-sans"
           />
           <button
             type="submit"
             disabled={isLoading || !customPrompt.trim()}
+            aria-label="Run custom simulation"
             className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-600 text-white transition-colors cursor-pointer"
           >
             {isLoading ? (
@@ -183,6 +185,7 @@ export default function SimulationControls({
             step="15"
             value={futureTimeOffset}
             onChange={handleFutureSliderChange}
+            aria-label="Future Vision time offset in minutes"
             className="w-full accent-pink-500 h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer"
           />
           <span className="text-[10px] font-mono text-slate-500">+1 HOUR</span>

@@ -167,11 +167,13 @@ export default function StadiumBrainChat({ onSendMessage, stadiumState }: Stadiu
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Ask Stadium Core..."
+            aria-label="Ask Stadium Core"
             className="flex-1 bg-white border border-slate-200 focus:border-cyan-500 focus:outline-none rounded-xl px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400"
           />
           <button
             type="submit"
             disabled={!inputText.trim() || isTyping}
+            aria-label="Send message"
             className="p-3 bg-cyan-50 hover:bg-cyan-100 border border-cyan-200 text-cyan-700 disabled:opacity-40 rounded-xl transition-colors cursor-pointer"
           >
             <Send size={12} />

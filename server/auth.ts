@@ -63,6 +63,15 @@ export async function registerUser(username: string, email: string, password: st
     return { success: false, error: "Username, email, and password are required." };
   }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(normalizedEmail)) {
+    return { success: false, error: "Invalid email format." };
+  }
+
+  if (password.length < 6) {
+    return { success: false, error: "Password must be at least 6 characters long." };
+  }
+
   try {
     const existing: any[] = await query("SELECT id FROM users WHERE email = ?", [normalizedEmail]);
     if (existing.length > 0) {

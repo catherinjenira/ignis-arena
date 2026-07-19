@@ -168,7 +168,10 @@ export default function StadiumDigitalTwin({
         className="w-full h-full cursor-crosshair select-none"
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
+        aria-labelledby="twin-title twin-desc"
       >
+        <title id="twin-title">Ignis Arena Live Digital Twin Map</title>
+        <desc id="twin-desc">Visualizes real-time crowd density, energy grids, and resource locations on a digital layout of the stadium.</desc>
         {/* Grids */}
         <defs>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -442,6 +445,9 @@ export default function StadiumDigitalTwin({
               transform={`translate(${marker.x}, ${marker.y})`}
               className="cursor-grab active:cursor-grabbing group/marker"
               onPointerDown={(e) => handlePointerDown(marker.id, e)}
+              role="application"
+              tabIndex={0}
+              aria-label={`Draggable marker for ${marker.label}`}
             >
               <circle
                 r={isSelected ? "25" : "18"}

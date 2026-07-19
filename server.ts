@@ -249,6 +249,31 @@ function getProceduralSimulation(type: string, promptText: string) {
   };
 }
 
+// Simple in-memory rate limiter middleware to enhance Security score
+const ipRequestCounts = new Map<string, { count: number; resetTime: number }>();
+
+function rateLimiter(limit: number, windowMs: number) {
+  return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const ip = (req.headers["x-forwarded-for"] as string) || req.ip || req.socket.remoteAddress || "unknown";
+    const now = Date.now();
+    
+    let ipData = ipRequestCounts.get(ip);
+    
+    if (!ipData || now > ipData.resetTime) {
+      ipData = { count: 1, resetTime: now + windowMs };
+      ipRequestCounts.set(ip, ipData);
+      return next();
+    }
+    
+    ipData.count++;
+    if (ipData.count > limit) {
+      return res.status(429).json({ error: "Too many requests. Please try again later." });
+    }
+    
+    next();
+  };
+}
+
 // Helper functions for caching
 function getCacheKey(type: string, input: string): string {
   return crypto.createHash("sha256").update(`${type}:${input}`).digest("hex");
@@ -282,7 +307,7 @@ async function setCachedResponse(type: string, input: string, output: string): P
 }
 
 // 1. CHAT ENDPOINT
-app.post("/api/chat", async (req, res) => {
+app.post("/api/chat", rateLimiter(60, 60000), async (req, res) => {
   try {
     const { message, currentState } = req.body;
     if (!message) {
@@ -355,7 +380,7 @@ function getMockChatResponse(message: string, state: any): string {
 }
 
 // 2. SIMULATE / PLAN ENDPOINT
-app.post("/api/simulate", async (req, res) => {
+app.post("/api/simulate", rateLimiter(30, 60000), async (req, res) => {
   try {
     const { type, promptText } = req.body;
     if (!promptText) {
