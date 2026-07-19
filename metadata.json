@@ -1,0 +1,6 @@
+{
+  "name": "IGNIS ARENA",
+  "description": "Where Intelligence Meets Competition. The World's First Autonomous Stadium Intelligence Platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
